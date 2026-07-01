@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="책피바라 독서회 - 함께 읽고, 함께 나누는 우리의 독서 아카이브">
+  <title>책피바라 📚 독서회 아카이브</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="header" id="header">
+    <div class="header-left">
+      <img src="assets/capybara.png" alt="책피바라 마스코트" class="header-logo" id="headerLogo">
+      <div>
+        <h1 class="header-title">책<span>피바라</span></h1>
+        <p class="header-subtitle">함께 읽고, 함께 나누는 독서회</p>
+      </div>
+    </div>
+    <button class="btn-admin" id="btnAdmin" title="관리자 모드">⚙ 관리</button>
+  </header>
+
+  <!-- ===== Main Content ===== -->
+  <main class="main-content" id="mainContent">
+    <div class="section-title">
+      <h2>📚 우리가 함께 읽은 책들</h2>
+      <div class="pixel-divider">꾸준히 읽어온 기록</div>
+    </div>
+
+    <!-- Book Cards Grid -->
+    <div class="books-grid" id="booksGrid">
+      <!-- Cards rendered by JS -->
+    </div>
+  </main>
+
+  <!-- ===== Download JSON Button (Admin) ===== -->
+  <button class="btn-download" id="btnDownload" title="데이터 다운로드">💾 JSON 저장</button>
+
+  <!-- ===== Toast Notification ===== -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ===== Book Detail Modal ===== -->
+  <div class="modal-overlay" id="bookDetailModal">
+    <div class="modal">
+      <div class="modal__header">
+        <strong>📖 책 상세</strong>
+        <button class="modal__close-btn" data-close="bookDetailModal">✕</button>
+      </div>
+      <div class="book-detail" id="bookDetailContent">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Password Modal ===== -->
+  <div class="modal-overlay" id="passwordModal">
+    <div class="modal" style="max-width: 400px;">
+      <div class="modal__header">
+        <strong>🔐 관리자 인증</strong>
+        <button class="modal__close-btn" data-close="passwordModal">✕</button>
+      </div>
+      <div class="password-modal__content">
+        <div class="pixel-lock">🔒</div>
+        <p>관리자 비밀번호를 입력해주세요</p>
+        <div class="form-group">
+          <input type="password" id="adminPassword" placeholder="비밀번호 입력..." autocomplete="off">
+        </div>
+        <button class="btn-primary" id="btnPasswordSubmit">확인</button>
+        <p class="help-text" style="margin-top: 12px; font-size: 0.7rem; color: var(--text-light);">
+          처음 사용 시 입력한 비밀번호가 설정됩니다
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Add/Edit Book Modal ===== -->
+  <div class="modal-overlay" id="bookFormModal">
+    <div class="modal">
+      <div class="modal__header">
+        <strong id="bookFormTitle">📝 새 책 추가</strong>
+        <button class="modal__close-btn" data-close="bookFormModal">✕</button>
+      </div>
+      <div class="admin-form" id="bookForm">
+        <div class="form-group">
+          <label for="bookYear">연도</label>
+          <input type="number" id="bookYear" placeholder="2025" min="2020" max="2030">
+        </div>
+        <div class="form-group">
+          <label for="bookMonth">월</label>
+          <select id="bookMonth">
+            <option value="1월">1월</option>
+            <option value="2월">2월</option>
+            <option value="3월">3월</option>
+            <option value="4월">4월</option>
+            <option value="5월">5월</option>
+            <option value="6월">6월</option>
+            <option value="7월">7월</option>
+            <option value="8월">8월</option>
+            <option value="9월">9월</option>
+            <option value="10월">10월</option>
+            <option value="11월">11월</option>
+            <option value="12월">12월</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="bookTitle">책 제목</label>
+          <input type="text" id="bookTitle" placeholder="책 제목을 입력하세요">
+        </div>
+        <div class="form-group">
+          <label for="bookAuthor">저자</label>
+          <input type="text" id="bookAuthor" placeholder="저자명을 입력하세요">
+        </div>
+        <div class="form-group">
+          <label>📷 표지 이미지</label>
+          <div class="file-upload-area" id="coverUploadArea">
+            <div class="file-upload-preview" id="coverPreview"></div>
+            <label class="file-upload-btn" for="bookCoverFile">📁 파일 선택</label>
+            <input type="file" id="bookCoverFile" accept="image/*" style="display:none">
+            <p class="help-text">JPG, PNG 파일을 선택해주세요</p>
+          </div>
+          <input type="hidden" id="bookCover">
+        </div>
+
+        <div class="form-group">
+          <label>모임 질문</label>
+          <div class="questions-editor" id="questionsEditor">
+            <!-- Filled by JS -->
+          </div>
+          <button class="btn-add-question" id="btnAddQuestion" type="button">+ 질문 추가</button>
+        </div>
+
+        <div class="form-group">
+          <label>📸 모임 사진</label>
+          <div class="photos-editor" id="photosEditor">
+            <!-- Filled by JS -->
+          </div>
+          <label class="file-upload-btn" for="photoFiles" style="display:inline-block;margin-top:8px;">📁 사진 추가</label>
+          <input type="file" id="photoFiles" accept="image/*" multiple style="display:none">
+          <p class="help-text">여러 장 선택 가능! 사진을 선택하면 자동으로 추가됩니다</p>
+        </div>
+
+        <div class="btn-group">
+          <button class="btn-secondary" data-close="bookFormModal">취소</button>
+          <button class="btn-primary" id="btnSaveBook">저장</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Photo Lightbox ===== -->
+  <div class="lightbox" id="lightbox">
+    <img src="" alt="확대 사진" id="lightboxImg">
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <img src="assets/capybara.png" alt="" class="footer__capybara"><br>
+    책피바라 독서회 © 2025<br>
+    함께 읽고, 함께 나누고, 함께 성장하기 🌱
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
