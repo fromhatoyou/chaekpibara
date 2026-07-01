@@ -292,7 +292,7 @@ body::before {
 }
 
 .book-card__month-label::after {
-  content: '📖';
+  content: '�뱰';
   position: absolute;
   right: 12px;
   top: 50%;
