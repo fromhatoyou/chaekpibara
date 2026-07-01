@@ -204,7 +204,7 @@ function createBookCard(book, index) {
   card.innerHTML = `
     <button class="book-card__delete-btn" data-id="${book.id}" title="삭제">✕</button>
     <div class="book-card__month-label" style="background: ${monthColor}">
-      ${yearLabel}${book.month}의 책
+      📖 ${yearLabel}${book.month}의 책
     </div>
     <div class="book-card__cover-wrap">
       ${coverHTML}
